@@ -258,12 +258,7 @@ void createVariantTasks(
             commandLine 'bash', scriptFile.absolutePath, mDir.absolutePath
         }
         onlyIf {
-            def isSubmoduleCloned = new File(rDir, "mosey-p8a/build_mosey.sh").exists()
-            if (!isSubmoduleCloned) {
-                logger.warn("WARNING: Skipping buildMosey${varCapped} because mosey-p8a submodule is not cloned.")
-                return false
-            }
-            return true
+            new File(rDir, "mosey-p8a/build_mosey.sh").exists()
         }
     }
 
@@ -279,12 +274,7 @@ void createVariantTasks(
             commandLine 'bash', scriptFile.absolutePath, mDir.absolutePath
         }
         onlyIf {
-            def isSubmoduleCloned = new File(rDir, "mosey-p8a/build_mosey.sh").exists()
-            if (!isSubmoduleCloned) {
-                logger.warn("WARNING: Skipping buildMoseyNovk${varCapped} because mosey-p8a submodule is not cloned.")
-                return false
-            }
-            return true
+            new File(rDir, "mosey-p8a/build_mosey.sh").exists()
         }
     }
 

@@ -1,8 +1,9 @@
 #!/bin/bash
 set -e
 
-# ROOT_DIR is the project root directory
-ROOT_DIR=$(pwd)
+# Resolve paths relative to this script, not caller working directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # First argument is the build directory path, default to out/magisk_module_beta_release
 PN_BUILD=${1:-$ROOT_DIR/out/magisk_module_beta_release}
@@ -14,8 +15,8 @@ if [ ! -d "$ROOT_DIR/mosey-p8a" ] || [ ! -f "$ROOT_DIR/mosey-p8a/build_mosey.sh"
 fi
 
 # Source mosey build scripts
-. mosey-p8a/build_mosey.sh || exit 255
-. mosey-p8a/wonder/build_wonder.sh || exit 255
+. "$ROOT_DIR/mosey-p8a/build_mosey.sh" || exit 255
+. "$ROOT_DIR/mosey-p8a/wonder/build_wonder.sh" || exit 255
 
 WONDER_OUT=$ROOT_DIR/mosey-p8a/out/module
 MOSEY_OUT=$ROOT_DIR/mosey-p8a/out/zip
@@ -86,8 +87,17 @@ module_prop_additions() {
 
 # Build Wonder if needed
 if [ ! -f "$WONDER_OUT/wonder_mosey_wild.ko" ]; then
+    if ! command -v aarch64-linux-gnu-gcc >/dev/null 2>&1 && [ -z "${KDIR:-}" ] && [ ! -s "$ROOT_DIR/mosey-p8a/system/vendor/lib/modules/wonder_mosey_wild.ko" ]; then
+        echo "Error: aarch64-linux-gnu-gcc is required to build wonder_mosey_wild.ko when KDIR is not set." >&2
+        exit 255
+    fi
     echo "Building Wonder"
+    mkdir -p "$ROOT_DIR/mosey-p8a/system/vendor/lib/modules"
     build_wonder
+    if [ ! -s "$WONDER_OUT/wonder_mosey_wild.ko" ]; then
+        echo "Error: wonder_mosey_wild.ko was not generated. Install aarch64-linux-gnu-gcc (or provide KDIR) before building Mosey." >&2
+        exit 255
+    fi
     echo "Wonder built!"
 else
     echo "Wonder already built, skipping"

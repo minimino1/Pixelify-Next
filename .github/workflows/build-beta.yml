@@ -1,0 +1,49 @@
+name: Build Beta Module
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "beta/**"
+      - "build.gradle"
+      - "settings.gradle"
+      - "module.gradle"
+      - "gradle/**"
+      - "gradle.properties"
+      - "gradlew"
+      - "gradlew.bat"
+  pull_request:
+    paths:
+      - "beta/**"
+      - "build.gradle"
+      - "settings.gradle"
+      - "module.gradle"
+      - "gradle/**"
+      - "gradle.properties"
+      - "gradlew"
+      - "gradlew.bat"
+
+jobs:
+  build-beta:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x gradlew
+
+      - name: Build beta module
+        run: ./gradlew :beta:build

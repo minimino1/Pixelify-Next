@@ -61,7 +61,7 @@ copy_mosey() {
         if [ -f "$MOSEY_OUT/$i" ]; then
             echo "Copying $i to source"
             mkdir -p "$PN_BUILD/system/vendor/lib/modules"
-            cp -f "$MOSEY_OUT/$i" "$PN_BUILD/system/vendor/lib/modules/"
+            cp -rf "$MOSEY_OUT/$i" "$PN_BUILD/system/vendor/lib/modules/"
         fi
     done
 

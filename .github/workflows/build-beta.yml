@@ -64,5 +64,4 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build beta module
-        run: ./gradlew :beta:build -x :beta:buildMoseyRelease -x :beta:buildMoseyDebug
-        
+        run: ./gradlew :beta:build -x :beta:buildMoseyRelease -x :beta:buildMoseyDebug -x :beta:buildMoseyNovkRelease -x :beta:buildMoseyNovkDebug       

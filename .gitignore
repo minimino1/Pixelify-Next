@@ -16,6 +16,7 @@ beta/build
 stable/build
 beta/.cxx
 stable/.cxx
+local.properties
 
 # Ignore temporary flag manifests
 allflags.json

@@ -64,7 +64,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build beta module
-        run: ./gradlew :beta:build -x :beta:buildMoseyRelease -x :beta:buildMoseyDebug -x :beta:buildMoseyNovkRelease -x :beta:buildMoseyNovkDebug 
+        run: ./gradlew :beta:zipRelease -x :beta:buildMoseyRelease -x :beta:buildMoseyDebug -x :beta:buildMoseyNovkRelease -x :beta:buildMoseyNovkDebug 
             
       - name: Find and Upload Artifacts
         uses: actions/upload-artifact@v4

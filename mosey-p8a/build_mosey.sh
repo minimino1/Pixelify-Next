@@ -22,7 +22,7 @@ build_mosey() {
     cp -f "$i" out/zip/
   done
   for i in $FOLDERS; do
-   cp $i out/zip
+   cp -r $i out/zip
   done
 }
 zip_files() {
